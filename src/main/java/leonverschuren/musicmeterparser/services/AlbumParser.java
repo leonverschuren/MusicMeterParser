@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser {
+public class AlbumParser {
     public Album parse(int id) throws IOException {
         Album album = new Album();
 
@@ -63,9 +63,11 @@ public class Parser {
 
     String extractRating(Document document) {
         Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Element rating = detailsWrapper.getElementsByClass("album_average").first().getElementsByTag("span").first();
+        Element ratingElement = detailsWrapper.getElementsByClass("album_average").first().getElementsByTag("span").first();
 
-        return rating.text().trim();
+        String rating = ratingElement.text();
+
+        return rating.replace(',', '.');
     }
 
     String extractGenre(Document document) {
@@ -88,7 +90,7 @@ public class Parser {
 
         String albumArtist = extractAlbumArtist(document);
 
-        List<Track> tracks = new ArrayList<Track>();
+        List<Track> tracks = new ArrayList<>();
         for (Element e : trackElements) {
             Track track = new Track();
             track.setTitle(e.childNode(1).toString().trim());

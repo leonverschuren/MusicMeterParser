@@ -26,6 +26,6 @@ public class Album {
     private List<Track> tracks;
 
     public Album() {
-        tracks = new ArrayList<Track>();
+        tracks = new ArrayList<>();
     }
 }

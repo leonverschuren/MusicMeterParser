@@ -5,7 +5,7 @@ import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import leonverschuren.musicmeterparser.resources.AlbumResource;
-import leonverschuren.musicmeterparser.services.Parser;
+import leonverschuren.musicmeterparser.services.AlbumParser;
 
 public class MusicMeterParserService extends Application<Configuration> {
     public static void main(String[] args) throws Exception {
@@ -18,8 +18,7 @@ public class MusicMeterParserService extends Application<Configuration> {
 
     @Override
     public void run(Configuration configuration, Environment environment) {
-        final Parser parser = new Parser();
-        final AlbumResource albumResource = new AlbumResource(parser);
+        final AlbumResource albumResource = new AlbumResource(new AlbumParser());
 
         environment.jersey().register(albumResource);
     }

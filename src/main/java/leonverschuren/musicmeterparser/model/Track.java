@@ -16,6 +16,6 @@ public class Track {
     private List<String> artists;
 
     public Track() {
-        artists = new ArrayList<String>();
+        artists = new ArrayList<>();
     }
 }

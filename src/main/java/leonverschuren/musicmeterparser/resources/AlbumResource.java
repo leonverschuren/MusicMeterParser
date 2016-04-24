@@ -1,19 +1,22 @@
 package leonverschuren.musicmeterparser.resources;
 
-import leonverschuren.musicmeterparser.services.Parser;
 import leonverschuren.musicmeterparser.model.Album;
+import leonverschuren.musicmeterparser.services.AlbumParser;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
-@Path("/")
+@Path("/album/")
 @Produces(MediaType.APPLICATION_JSON)
 public class AlbumResource {
-    private final Parser parser;
+    private final AlbumParser parser;
 
-    public AlbumResource(Parser parser) {
-        this.parser = parser;
+    public AlbumResource(AlbumParser albumParser) {
+        this.parser = albumParser;
     }
 
     @GET

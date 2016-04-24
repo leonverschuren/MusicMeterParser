@@ -9,13 +9,13 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParserTest {
-    private Parser target;
+public class AlbumParserTest {
+    private AlbumParser target;
     private Document document;
 
     @Before
     public void fetchDocument() throws Exception {
-        target = new Parser();
+        target = new AlbumParser();
         document = target.fetchDocument(1);
     }
 
@@ -60,7 +60,7 @@ public class ParserTest {
         String result = target.extractRating(document);
 
         // Assert
-        Assert.assertEquals("3,97", result);
+        Assert.assertEquals("3.97", result);
     }
 
     @Test

@@ -36,17 +36,14 @@ public class AlbumParser {
     }
 
     String extractAlbumTitle(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Element header = detailsWrapper.getElementsByTag("h1").first();
-
+        Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
         Element title = header.getElementsByAttributeValue("itemprop", "name").first();
 
         return title.text().trim();
     }
 
     String extractAlbumArtist(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Element header = detailsWrapper.getElementsByTag("h1").first();
+        Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
 
         Element artist = header.getElementsByTag("a").first();
 
@@ -62,8 +59,9 @@ public class AlbumParser {
     }
 
     String extractRating(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Element ratingElement = detailsWrapper.getElementsByClass("album_average").first().getElementsByTag("span").first();
+        Element ratingElement = document.getElementById("album_details_wrapper")
+                .getElementsByClass("album_average").first()
+                .getElementsByTag("span").first();
 
         String rating = ratingElement.text();
 
@@ -71,22 +69,19 @@ public class AlbumParser {
     }
 
     String extractGenre(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Elements details = detailsWrapper.getElementsByClass("album_details");
+        Elements details = document.getElementById("album_details_wrapper").getElementsByClass("album_details");
 
         return details.first().childNode(2).toString().trim();
     }
 
     String extractLabel(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Elements details = detailsWrapper.getElementsByClass("album_details");
+        Elements details = document.getElementById("album_details_wrapper").getElementsByClass("album_details");
 
         return details.first().getElementsByTag("a").first().text().trim();
     }
 
     List<Track> extractTracks(Document document) {
-        Element detailsWrapper = document.getElementById("album_details_wrapper");
-        Elements trackElements = detailsWrapper.getElementsByTag("li");
+        Elements trackElements = document.getElementById("album_details_wrapper").getElementsByTag("li");
 
         String albumArtist = extractAlbumArtist(document);
 
@@ -94,12 +89,14 @@ public class AlbumParser {
         for (Element e : trackElements) {
             Track track = new Track();
             track.setTitle(e.childNode(1).toString().trim());
-
             track.getArtists().add(albumArtist);
-            Element span = e.getElementsByTag("span").last();
-            Elements guests = span.getElementsByTag("a");
-            for (Element g : guests) {
-                track.getArtists().add(g.text());
+
+            Element span = e.getElementsByClass("subtext").first();
+            if (span != null) {
+                Elements guests = span.getElementsByTag("a");
+                for (Element g : guests) {
+                    track.getArtists().add(g.text());
+                }
             }
 
             tracks.add(track);

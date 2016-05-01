@@ -4,6 +4,7 @@ import leonverschuren.musicmeterparser.model.Track;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -68,19 +69,28 @@ public class AlbumParser {
         for (Element e : trackElements) {
             Track track = new Track();
 
-            if (e.childNode(1).hasAttr("href")) {
-                track.addArtist(e.getElementsByTag("a").first().text());
-                track.setTitle(e.childNode(2).toString().trim().substring(2));
+            if (e.childNode(1).hasAttr("href")) { // Compilation
+                Elements artists = e.getElementsByClass("tooltip");
+                for (Element artist : artists) {
+                    track.addArtist(artist.text());
+                }
+
+                for (Node n : e.childNodes()) {
+                    if (n.toString().startsWith(" - ")) {
+                        track.setTitle(n.toString().trim().substring(2));
+                        break;
+                    }
+                }
             } else {
                 track.addArtist(albumArtist);
                 track.setTitle(e.childNode(1).toString().trim());
-            }
 
-            Element span = e.getElementsByClass("subtext").first();
-            if (span != null) {
-                Elements guests = span.getElementsByTag("a");
-                for (Element g : guests) {
-                    track.addArtist(g.text());
+                Element span = e.getElementsByClass("subtext").first();
+                if (span != null) {
+                    Elements guests = span.getElementsByTag("a");
+                    for (Element g : guests) {
+                        track.addArtist(g.text());
+                    }
                 }
             }
 

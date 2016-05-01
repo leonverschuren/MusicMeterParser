@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -17,5 +18,13 @@ public class Track {
 
     public Track() {
         artists = new ArrayList<>();
+    }
+
+    public List<String> getArtists() {
+        return Collections.unmodifiableList(artists);
+    }
+
+    public void addArtist(String artist) {
+        artists.add(artist);
     }
 }

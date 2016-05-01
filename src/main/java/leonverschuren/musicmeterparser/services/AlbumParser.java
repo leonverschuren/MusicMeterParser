@@ -1,40 +1,15 @@
 package leonverschuren.musicmeterparser.services;
 
-import leonverschuren.musicmeterparser.model.Album;
 import leonverschuren.musicmeterparser.model.Track;
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumParser {
-    public Album parse(int id) throws IOException {
-        Album album = new Album();
-
-        Document doc = fetchDocument(id);
-
-        album.setTitle(extractAlbumTitle(doc));
-        album.setArtist(extractAlbumArtist(doc));
-        album.setYear(extractYear(doc));
-        album.setRating(extractRating(doc));
-        album.setGenre(extractGenre(doc));
-        album.setLabel(extractLabel(doc));
-        album.setTracks(extractTracks(doc));
-
-        return album;
-    }
-
-    Document fetchDocument(int id) throws IOException {
-        return Jsoup.connect("http://www.musicmeter.nl/album/" + Integer.toString(id))
-                .cookie("cok", "1")
-                .get();
-    }
-
     String extractAlbumTitle(Document document) {
         Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
         Element title = header.getElementsByAttributeValue("itemprop", "name").first();
@@ -45,9 +20,13 @@ public class AlbumParser {
     String extractAlbumArtist(Document document) {
         Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
 
-        Element artist = header.getElementsByTag("a").first();
+        String artist = null;
+        Elements links = header.getElementsByTag("a");
+        if (!links.isEmpty()) {
+            artist = links.first().text().trim();
+        }
 
-        return artist.text().trim();
+        return artist;
     }
 
     String extractYear(Document document) {
@@ -88,14 +67,20 @@ public class AlbumParser {
         List<Track> tracks = new ArrayList<>();
         for (Element e : trackElements) {
             Track track = new Track();
-            track.setTitle(e.childNode(1).toString().trim());
-            track.getArtists().add(albumArtist);
+
+            if (e.childNode(1).hasAttr("href")) {
+                track.addArtist(e.getElementsByTag("a").first().text());
+                track.setTitle(e.childNode(2).toString().trim().substring(2));
+            } else {
+                track.addArtist(albumArtist);
+                track.setTitle(e.childNode(1).toString().trim());
+            }
 
             Element span = e.getElementsByClass("subtext").first();
             if (span != null) {
                 Elements guests = span.getElementsByTag("a");
                 for (Element g : guests) {
-                    track.getArtists().add(g.text());
+                    track.addArtist(g.text());
                 }
             }
 

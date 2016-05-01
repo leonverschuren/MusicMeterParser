@@ -16,7 +16,7 @@ public class AlbumParserTest {
     @Before
     public void fetchDocument() throws Exception {
         target = new AlbumParser();
-        document = target.fetchDocument(1);
+        document = new AlbumScraper().fetchDocument(1);
     }
 
     @Test

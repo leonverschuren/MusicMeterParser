@@ -1,7 +1,8 @@
 package leonverschuren.musicmeterparser.resources;
 
 import leonverschuren.musicmeterparser.model.Album;
-import leonverschuren.musicmeterparser.services.AlbumParser;
+import leonverschuren.musicmeterparser.model.Cover;
+import leonverschuren.musicmeterparser.services.AlbumScraper;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,15 +14,26 @@ import java.io.IOException;
 @Path("/album/")
 @Produces(MediaType.APPLICATION_JSON)
 public class AlbumResource {
-    private final AlbumParser parser;
+    private final AlbumScraper scraper;
 
-    public AlbumResource(AlbumParser albumParser) {
-        this.parser = albumParser;
+    public AlbumResource(AlbumScraper scraper) {
+        this.scraper = scraper;
     }
 
     @GET
     @Path("/{id}")
     public Album album(@PathParam("id") String id) throws IOException {
-        return parser.parse(Integer.parseInt(id));
+        return scraper.parse(Integer.parseInt(id));
+    }
+
+    @GET
+    @Path("/cover/{id}")
+    public Cover cover(@PathParam("id") String id) {
+        int width = 1280;
+        int height = 1280;
+
+        String url = "http://images.osl.wimpmusic.com/im/im?w=" + width + "&h=" + height + "&albumid=" + id;
+
+        return new Cover(url);
     }
 }

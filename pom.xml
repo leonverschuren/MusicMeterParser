@@ -23,6 +23,7 @@
                 <version>1.6</version>
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <finalName>MusicMeterParser</finalName>
                 </configuration>
                 <executions>
                     <execution>

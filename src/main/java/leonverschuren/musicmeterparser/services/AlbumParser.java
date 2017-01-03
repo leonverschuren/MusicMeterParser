@@ -12,14 +12,20 @@ import java.util.List;
 
 public class AlbumParser {
     String extractAlbumTitle(Document document) {
-        Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
-        Element title = header.getElementsByAttributeValue("itemprop", "name").first();
+        Element header = document.getElementById("album_details_wrapper")
+                .getElementsByTag("h1")
+                .first();
+
+        Element title = header.getElementsByAttributeValue("itemprop", "name")
+                .first();
 
         return title.text().trim();
     }
 
     String extractAlbumArtist(Document document) {
-        Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
+        Element header = document.getElementById("album_details_wrapper")
+                .getElementsByTag("h1")
+                .first();
 
         String artist = null;
         Elements links = header.getElementsByTag("a");
@@ -49,19 +55,22 @@ public class AlbumParser {
     }
 
     String extractGenre(Document document) {
-        Elements details = document.getElementById("album_details_wrapper").getElementsByClass("album_details");
+        Elements details = document.getElementById("album_details_wrapper")
+                .getElementsByClass("album_details");
 
         return details.first().childNode(2).toString().trim();
     }
 
     String extractLabel(Document document) {
-        Elements details = document.getElementById("album_details_wrapper").getElementsByClass("album_details");
+        Elements details = document.getElementById("album_details_wrapper")
+                .getElementsByClass("album_details");
 
         return details.first().getElementsByTag("a").first().text().trim();
     }
 
     List<Track> extractTracks(Document document) {
-        Elements trackElements = document.getElementById("album_details_wrapper").getElementsByTag("li");
+        Elements trackElements = document.getElementById("album_details_wrapper")
+                .getElementsByTag("li");
 
         String albumArtist = extractAlbumArtist(document);
 

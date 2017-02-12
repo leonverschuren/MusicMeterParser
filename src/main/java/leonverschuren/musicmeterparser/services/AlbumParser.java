@@ -19,7 +19,9 @@ public class AlbumParser {
         Element title = header.getElementsByAttributeValue("itemprop", "name")
                 .first();
 
-        return title.text().trim();
+        String elementText = title.text();
+
+        return elementText.substring(elementText.indexOf(" - ") + 3);
     }
 
     String extractAlbumArtist(Document document) {
@@ -39,7 +41,7 @@ public class AlbumParser {
     String extractYear(Document document) {
         Element header = document.getElementsByTag("h1").first();
 
-        String year = header.childNode(3).toString();
+        String year = header.childNode(1).toString();
 
         return StringUtils.substringBetween(year, "(", ")");
     }
@@ -78,28 +80,14 @@ public class AlbumParser {
         for (Element e : trackElements) {
             Track track = new Track();
 
-            if (e.childNode(1).hasAttr("href")) { // Compilation
-                Elements artists = e.getElementsByClass("tooltip");
-                for (Element artist : artists) {
-                    track.addArtist(artist.text());
-                }
+            track.addArtist(albumArtist);
+            track.setTitle(e.ownText().trim());
 
-                for (Node n : e.childNodes()) {
-                    if (n.toString().startsWith(" - ")) {
-                        track.setTitle(n.toString().trim().substring(2));
-                        break;
-                    }
-                }
-            } else {
-                track.addArtist(albumArtist);
-                track.setTitle(e.childNode(1).toString().trim());
-
-                Element span = e.getElementsByClass("subtext").first();
-                if (span != null) {
-                    Elements guests = span.getElementsByTag("a");
-                    for (Element g : guests) {
-                        track.addArtist(g.text());
-                    }
+            Element span = e.getElementsByClass("subtext").first();
+            if (span != null) {
+                Elements guests = span.getElementsByTag("a");
+                for (Element g : guests) {
+                    track.addArtist(g.text());
                 }
             }
 

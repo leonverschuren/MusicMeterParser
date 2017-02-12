@@ -9,7 +9,7 @@ public class ParserFactory {
     public static AlbumParser createParser(Document document) {
         Element header = document.getElementById("album_details_wrapper").getElementsByTag("h1").first();
 
-        if (header.childNodes().size() == 4) {
+        if (header.getElementsByTag("a").size() != 0) {
             return new AlbumParser();
         } else {
             return new CompilationParser();

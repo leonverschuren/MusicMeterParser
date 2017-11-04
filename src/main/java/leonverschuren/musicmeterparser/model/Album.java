@@ -9,18 +9,30 @@ import java.util.List;
 @Getter
 @Setter
 public class Album {
-    @JsonProperty("Artist")
-    private String artist;
-    @JsonProperty("Title")
+    @JsonProperty("title")
     private String title;
-    @JsonProperty("Year")
+
+    @JsonProperty("cover")
+    private String cover;
+
+    @JsonProperty("artist")
+    private String artist;
+
+    @JsonProperty("year")
     private String year;
-    @JsonProperty("Genre")
-    private String genre;
-    @JsonProperty("Label")
-    private String label;
-    @JsonProperty("Rating")
+
+    @JsonProperty("release_date")
+    private String releaseDate;
+
+    @JsonProperty("rating")
     private String rating;
-    @JsonProperty("Tracks")
+
+    @JsonProperty("label")
+    private String label;
+
+    @JsonProperty("genre")
+    private String genre;
+
+    @JsonProperty("tracks")
     private List<Track> tracks;
 }

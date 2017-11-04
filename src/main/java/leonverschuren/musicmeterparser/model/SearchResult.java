@@ -6,10 +6,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AlbumInfo {
+public class SearchResult {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("url")
+    private String url;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("artist")
+    private String artist;
+
     @JsonProperty("title")
     private String title;
+
+    @JsonProperty("year")
+    private String year;
 }

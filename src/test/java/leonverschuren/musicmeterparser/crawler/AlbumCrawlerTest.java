@@ -1,6 +1,7 @@
-package leonverschuren.musicmeterparser.services;
+package leonverschuren.musicmeterparser.crawler;
 
 import leonverschuren.musicmeterparser.model.Track;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,14 +10,13 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class AlbumParserTest {
-    private AlbumParser target;
-    private Document document;
+public class AlbumCrawlerTest {
+    private AlbumCrawler target;
 
     @Before
     public void fetchDocument() throws Exception {
-        target = new AlbumParser();
-        document = new AlbumScraper().fetchAlbumDocument(1);
+        Document document = Jsoup.connect("https://www.musicmeter.nl/album/1").cookie("cok", "1").get();
+        target = new AlbumCrawler(document);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractAlbumArtist(document);
+        String result = target.extractAlbumArtist();
 
         // Assert
         Assert.assertEquals("Dr. Dre", result);
@@ -35,10 +35,21 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractAlbumTitle(document);
+        String result = target.extractAlbumTitle();
 
         // Assert
         Assert.assertEquals("The Chronic", result);
+    }
+
+    @Test
+    public void extractsCover() {
+        // Arrange
+
+        // Act
+        String result = target.extractCover();
+
+        // Assert
+        Assert.assertEquals("https://www.musicmeter.nl/images/cover/0/1.jpg", result);
     }
 
     @Test
@@ -46,7 +57,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractYear(document);
+        String result = target.extractYear();
 
         // Assert
         Assert.assertEquals("1992", result);
@@ -57,7 +68,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractRating(document);
+        String result = target.extractRating();
 
         // Assert
         Assert.assertEquals("3.97", result);
@@ -68,7 +79,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractGenre(document);
+        String result = target.extractGenre();
 
         // Assert
         Assert.assertEquals("Hip-Hop", result);
@@ -79,7 +90,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        String result = target.extractLabel(document);
+        String result = target.extractLabel();
 
         // Assert
         Assert.assertEquals("Death Row", result);
@@ -90,7 +101,7 @@ public class AlbumParserTest {
         // Arrange
 
         // Act
-        List<Track> result = target.extractTracks(document);
+        List<Track> result = target.extractTracks();
 
         // Assert
         Assert.assertEquals(23, result.size());

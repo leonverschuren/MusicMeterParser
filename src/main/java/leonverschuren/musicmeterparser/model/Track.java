@@ -11,9 +11,10 @@ import java.util.List;
 @Getter
 @Setter
 public class Track {
-    @JsonProperty("Title")
+    @JsonProperty("title")
     private String title;
-    @JsonProperty("Artists")
+
+    @JsonProperty("artists")
     private List<String> artists;
 
     public Track() {

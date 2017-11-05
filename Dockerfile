@@ -1,22 +1,16 @@
-FROM java:8-alpine
-
-RUN wget http://apache.cs.uu.nl/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-RUN tar -zxvf apache-maven-3.3.9-bin.tar.gz
-RUN rm apache-maven-3.3.9-bin.tar.gz
-RUN mv apache-maven-3.3.9 /usr/lib/mvn
-
-ENV M2_HOME=/usr/lib/mvn
-ENV M2=$M2_HOME/bin
-ENV PATH $PATH:$M2_HOME:$M2
+FROM maven:3.5-jdk-8-alpine as BUILD
 
 RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+COPY src /usr/src/app/src
+COPY pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean package
 
-RUN mvn package
+FROM openjdk:8-jre-alpine
+ 
+COPY --from=BUILD /usr/src/app/target/MusicMeterParser.jar /usr/src/app/MusicMeterParser.jar
 
 EXPOSE 8080
 EXPOSE 8081
 
-ENTRYPOINT java -jar target/MusicMeterParser.jar server
+ENTRYPOINT java -jar /usr/src/app/MusicMeterParser.jar server

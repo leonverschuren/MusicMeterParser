@@ -63,7 +63,7 @@ public class SearchCrawler {
         }
         catch (Exception e)
         {
-            log.error(e);
+            log.warn(e);
         }
 
         return result;

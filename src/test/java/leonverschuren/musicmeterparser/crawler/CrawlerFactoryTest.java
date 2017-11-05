@@ -12,7 +12,7 @@ public class CrawlerFactoryTest {
         AlbumCrawler result = CrawlerFactory.createAlbumCrawler(1);
 
         // Assert
-        Assert.assertEquals(AlbumCrawler.class, result.getClass());
+        Assert.assertEquals(RegularAlbumCrawler.class, result.getClass());
     }
 
     @Test

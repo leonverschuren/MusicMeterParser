@@ -10,13 +10,13 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class AlbumCrawlerTest {
+public class RegularAlbumCrawlerTest {
     private AlbumCrawler target;
 
     @Before
     public void fetchDocument() throws Exception {
         Document document = Jsoup.connect("https://www.musicmeter.nl/album/1").cookie("cok", "1").get();
-        target = new AlbumCrawler(document);
+        target = new RegularAlbumCrawler(document);
     }
 
     @Test

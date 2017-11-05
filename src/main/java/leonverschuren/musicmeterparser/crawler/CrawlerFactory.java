@@ -14,11 +14,9 @@ public class CrawlerFactory {
 
         Elements header = document.select("h1 a");
 
-        if (header.size() != 0) {
-            return new AlbumCrawler(document);
-        } else {
-            return new CompilationCrawler(document);
-        }
+        AlbumCrawler albumCrawler = (header.size() != 0) ? new RegularAlbumCrawler(document) : new CompilationCrawler(document);
+
+        return new ExceptionHandlingAlbumCrawler(albumCrawler);
     }
 
     public static  SearchCrawler createSearchCrawler(String term) throws Exception

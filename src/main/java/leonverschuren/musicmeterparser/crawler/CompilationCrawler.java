@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompilationCrawler extends AlbumCrawler {
+public class CompilationCrawler extends RegularAlbumCrawler {
     CompilationCrawler(Document document) {
         super(document);
     }

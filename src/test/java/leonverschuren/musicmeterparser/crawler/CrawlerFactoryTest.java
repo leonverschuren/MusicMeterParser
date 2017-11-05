@@ -9,7 +9,7 @@ public class CrawlerFactoryTest {
         // Arrange
 
         // Act
-        AlbumCrawler result = CrawlerFactory.createAlbumCrawler(1);
+        AlbumCrawler result = CrawlerFactory.createAlbumCrawler(1, false);
 
         // Assert
         Assert.assertEquals(RegularAlbumCrawler.class, result.getClass());
@@ -20,7 +20,7 @@ public class CrawlerFactoryTest {
         // Arrange
 
         // Act
-        AlbumCrawler result = CrawlerFactory.createAlbumCrawler(13039);
+        AlbumCrawler result = CrawlerFactory.createAlbumCrawler(13039, false);
 
         // Assert
         Assert.assertEquals(CompilationCrawler.class, result.getClass());

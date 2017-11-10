@@ -26,12 +26,7 @@ public class AlbumResource {
         Album album = new Album();
 
         AlbumCrawler crawler = CrawlerFactory.createAlbumCrawler(id);
-
-        Document statsDocument = Jsoup.connect("https://www.musicmeter.nl/album/" + id + "/stats/")
-                .cookie("cok", "1")
-                .get();
-
-        StatsCrawler statsCrawler = new StatsCrawler(statsDocument);
+        StatsCrawler statsCrawler = CrawlerFactory.createStatsCrawler(id);
 
         album.setTitle(crawler.extractAlbumTitle());
         album.setCover(crawler.extractCover());

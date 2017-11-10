@@ -1,5 +1,6 @@
 package leonverschuren.musicmeterparser.crawler;
 
+import lombok.extern.log4j.Log4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -8,19 +9,28 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+@Log4j
 public class StatsCrawler {
     private final Document document;
 
-    public StatsCrawler(Document document) {
+    StatsCrawler(Document document) {
         this.document = document;
     }
 
     public String extractReleaseDate() {
-        Element element = document.select("#content > div:nth-child(2) > p:nth-child(7)").first();
+        String result = null;
 
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("nl"));
-        LocalDate date = LocalDate.from(f.parse(element.text(), new ParsePosition(14)));
+        try {
+            Element element = document.select("#content > div:nth-child(2) > p:nth-child(7)").first();
 
-        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            DateTimeFormatter f = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("nl"));
+            LocalDate date = LocalDate.from(f.parse(element.text(), new ParsePosition(14)));
+
+            result = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (Exception e) {
+            log.warn(e);
+        }
+
+        return result;
     }
 }

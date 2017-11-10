@@ -14,18 +14,14 @@ public class CrawlerFactory {
     static AlbumCrawler createAlbumCrawler(int albumId, boolean withExceptionHandling) throws Exception {
         AlbumCrawler crawler = determineAlbumCrawler(albumId);
 
-        if (withExceptionHandling)
-        {
+        if (withExceptionHandling) {
             return new ExceptionHandlingAlbumCrawler(crawler);
-        }
-        else
-        {
+        } else {
             return crawler;
         }
     }
 
-    private static AlbumCrawler determineAlbumCrawler(int albumId) throws Exception
-    {
+    private static AlbumCrawler determineAlbumCrawler(int albumId) throws Exception {
         Document document = Jsoup.connect("https://www.musicmeter.nl/album/" + String.valueOf(albumId))
                 .cookie("cok", "1")
                 .get();
@@ -35,12 +31,19 @@ public class CrawlerFactory {
         return (header.size() != 0) ? new RegularAlbumCrawler(document) : new CompilationCrawler(document);
     }
 
-    public static SearchCrawler createSearchCrawler(String term) throws Exception
-    {
+    public static SearchCrawler createSearchCrawler(String term) throws Exception {
         Document document = Jsoup.connect("https://www.musicmeter.nl/site/search?q=" + URLEncoder.encode(term, "UTF-8"))
                 .cookie("cok", "1")
                 .get();
 
         return new SearchCrawler(document);
+    }
+
+    public static StatsCrawler createStatsCrawler(int albumId) throws Exception {
+        Document document = Jsoup.connect("https://www.musicmeter.nl/album/" + String.valueOf(albumId) + "/stats/")
+                .cookie("cok", "1")
+                .get();
+
+        return new StatsCrawler(document);
     }
 }

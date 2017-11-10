@@ -36,6 +36,12 @@ public class RegularAlbumCrawler implements AlbumCrawler {
 
         String url = element.attr("src");
 
+        int index = url.indexOf("?");
+        if (index != -1)
+        {
+            url = url.substring(0, url.indexOf("?"));
+        }
+
         return url.replace(".300", "");
     }
 
@@ -71,21 +77,33 @@ public class RegularAlbumCrawler implements AlbumCrawler {
     public List<Track> extractTracks() {
         Elements trackElements = document.select("#content div.tracks > ol > li");
 
-        String albumArtist = extractAlbumArtist();
-
         List<Track> tracks = new ArrayList<>();
         for (Element e : trackElements) {
             Track track = new Track();
 
-            track.addArtist(albumArtist);
-            track.setTitle(e.ownText().trim());
+            Elements artists = e.select(":root > a[data-tooltip-artist]");
+            if (!artists.isEmpty())
+            {
+                String title = e.ownText();
+                track.setTitle(title.substring(title.indexOf("- ") + 2).trim());
+            }
+            else
+            {
+                track.setTitle(e.ownText().trim());
+            }
 
-            Element span = e.getElementsByClass("subtext").first();
-            if (span != null) {
-                Elements guests = span.getElementsByTag("a");
-                for (Element g : guests) {
-                    track.addArtist(g.text());
-                }
+            String albumArtist = extractAlbumArtist();
+
+            if (albumArtist != null && !albumArtist.isEmpty())
+            {
+                track.addArtist(albumArtist);
+            }
+
+            Elements guests = e.select(".subtext > a");
+            artists.addAll(guests);
+
+            for (Element artist : artists) {
+                track.addArtist(artist.text());
             }
 
             tracks.add(track);

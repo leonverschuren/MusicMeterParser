@@ -3,6 +3,7 @@ package leonverschuren.musicmeterparser.resource;
 import leonverschuren.musicmeterparser.crawler.AlbumCrawler;
 import leonverschuren.musicmeterparser.crawler.CrawlerFactory;
 import leonverschuren.musicmeterparser.crawler.SearchCrawler;
+import leonverschuren.musicmeterparser.message.SearchResultsResponse;
 import leonverschuren.musicmeterparser.model.SearchResult;
 import lombok.extern.log4j.Log4j;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class SearchResource {
     @GET
     @Path("/{term}")
-    public List<SearchResult> search(@PathParam("term") String term) throws Exception {
+    public SearchResultsResponse search(@PathParam("term") String term) throws Exception {
         SearchCrawler searchCrawler = CrawlerFactory.createSearchCrawler(term);
         List<SearchResult> results = searchCrawler.extractSearchResults();
 
@@ -42,6 +43,6 @@ public class SearchResource {
             log.info(e);
         }
 
-        return results;
+        return new SearchResultsResponse(results);
     }
 }

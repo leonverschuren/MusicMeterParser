@@ -37,8 +37,7 @@ public class RegularAlbumCrawler implements AlbumCrawler {
         String url = element.attr("src");
 
         int index = url.indexOf("?");
-        if (index != -1)
-        {
+        if (index != -1) {
             url = url.substring(0, url.indexOf("?"));
         }
 
@@ -49,7 +48,9 @@ public class RegularAlbumCrawler implements AlbumCrawler {
     public String extractYear() {
         Element element = document.select("#content div.details > h1").first();
 
-        return StringUtils.substringBetween(element.text(), "(", ")");
+        String year = element.text();
+
+        return year.substring(year.lastIndexOf("(") + 1, year.lastIndexOf(")"));
     }
 
     @Override
@@ -82,20 +83,16 @@ public class RegularAlbumCrawler implements AlbumCrawler {
             Track track = new Track();
 
             Elements artists = e.select(":root > a[data-tooltip-artist]");
-            if (!artists.isEmpty())
-            {
+            if (!artists.isEmpty()) {
                 String title = e.ownText();
                 track.setTitle(title.substring(title.indexOf("- ") + 2).trim());
-            }
-            else
-            {
+            } else {
                 track.setTitle(e.ownText().trim());
             }
 
             String albumArtist = extractAlbumArtist();
 
-            if (albumArtist != null && !albumArtist.isEmpty())
-            {
+            if (albumArtist != null && !albumArtist.isEmpty()) {
                 track.addArtist(albumArtist);
             }
 

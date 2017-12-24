@@ -114,4 +114,17 @@ public class RegularAlbumCrawlerTest {
         Assert.assertEquals("Would You Ride *", last.getTitle());
         Assert.assertEquals(Arrays.asList("Dr. Dre", "Kurupt", "Amber", "Tyrone", "Daz", "Snoop Doggy Dogg"), last.getArtists());
     }
+
+    @Test
+    public void extractsAlbumTitleWithParentheses() throws Exception {
+        // Arrange
+        Document document = Jsoup.connect("https://www.musicmeter.nl/album/30643").cookie("cok", "1").get();
+        RegularAlbumCrawler target = new RegularAlbumCrawler(document);
+
+        // Act
+        String result = target.extractYear();
+
+        // Assert
+        Assert.assertEquals("1997", result);
+    }
 }

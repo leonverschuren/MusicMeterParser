@@ -38,7 +38,7 @@ public class SearchCrawler {
     }
 
     public List<SearchResult> extractSearchResults() {
-        Elements albums = document.select("#content a[data-tooltip-entity]");
+        Elements albums = document.select("#main a[data-tooltip-entity]");
 
         return albums.parallelStream().map(this::getSearchResult).collect(toList());
     }

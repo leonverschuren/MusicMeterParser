@@ -9,7 +9,7 @@ public class CompilationCrawler extends RegularAlbumCrawler {
 
     @Override
     public String extractAlbumTitle() {
-        return document.select("#content div.details > h1 > span").text();
+        return document.select("#main div.details > h1 > span").text();
     }
 
     @Override

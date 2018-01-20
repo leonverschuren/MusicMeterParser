@@ -18,21 +18,21 @@ public class RegularAlbumCrawler implements AlbumCrawler {
 
     @Override
     public String extractAlbumTitle() {
-        String title = document.select("#content div.details > h1 > span").first().text();
+        String title = document.select("#main div.details > h1 > span").first().text();
 
         return title.substring(title.indexOf(" - ") + 3);
     }
 
     @Override
     public String extractAlbumArtist() {
-        Element element = document.select("#content div.details > h1 > span > a").first();
+        Element element = document.select("#main div.details > h1 > span > a").first();
 
         return element.text();
     }
 
     @Override
     public String extractCover() {
-        Element element = document.select("#content div.image > img").first();
+        Element element = document.select("#main div.image > img").first();
 
         String url = element.attr("src");
 
@@ -46,7 +46,7 @@ public class RegularAlbumCrawler implements AlbumCrawler {
 
     @Override
     public String extractYear() {
-        Element element = document.select("#content div.details > h1").first();
+        Element element = document.select("#main div.details > h1").first();
 
         String year = element.text();
 
@@ -55,7 +55,7 @@ public class RegularAlbumCrawler implements AlbumCrawler {
 
     @Override
     public String extractRating() {
-        Element element = document.select("#content div.star-rating.entity-rating > span").first();
+        Element element = document.select("#main div.star-rating.entity-rating > span").first();
 
         return element.text().replace(',', '.');
     }
@@ -69,14 +69,14 @@ public class RegularAlbumCrawler implements AlbumCrawler {
 
     @Override
     public String extractLabel() {
-        Element element = document.select("#content div.details-inner > p > a").first();
+        Element element = document.select("#main div.details-inner > p > a").first();
 
         return element.text().trim();
     }
 
     @Override
     public List<Track> extractTracks() {
-        Elements trackElements = document.select("#content div.tracks > ol > li");
+        Elements trackElements = document.select("#main div.tracks > ol > li");
 
         List<Track> tracks = new ArrayList<>();
         for (Element e : trackElements) {

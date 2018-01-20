@@ -21,7 +21,7 @@ public class StatsCrawler {
         String result = null;
 
         try {
-            Element element = document.select("#main > div:nth-child(2) > p:nth-child(7)").first();
+            Element element = document.select("#main > div > p:nth-child(8)").first();
 
             DateTimeFormatter f = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("nl"));
             LocalDate date = LocalDate.from(f.parse(element.text(), new ParsePosition(14)));

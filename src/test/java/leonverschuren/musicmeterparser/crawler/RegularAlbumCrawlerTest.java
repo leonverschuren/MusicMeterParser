@@ -71,7 +71,7 @@ public class RegularAlbumCrawlerTest {
         String result = target.extractRating();
 
         // Assert
-        Assert.assertEquals("3.97", result);
+        Assert.assertEquals("3.98", result);
     }
 
     @Test

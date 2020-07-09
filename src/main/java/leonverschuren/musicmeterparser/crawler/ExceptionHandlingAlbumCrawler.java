@@ -1,12 +1,13 @@
 package leonverschuren.musicmeterparser.crawler;
 
 import leonverschuren.musicmeterparser.model.Track;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
-@Log4j
+@Log
 public class ExceptionHandlingAlbumCrawler implements AlbumCrawler {
     private final AlbumCrawler innerCrawler;
 
@@ -65,7 +66,7 @@ public class ExceptionHandlingAlbumCrawler implements AlbumCrawler {
         }
         catch (Exception e)
         {
-            log.warn(e);
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
 
         return result;

@@ -1,6 +1,6 @@
 package leonverschuren.musicmeterparser.crawler;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.java.Log;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -8,8 +8,9 @@ import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.logging.Level;
 
-@Log4j
+@Log
 public class StatsCrawler {
     private final Document document;
 
@@ -28,7 +29,7 @@ public class StatsCrawler {
 
             result = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } catch (Exception e) {
-            log.warn(e);
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
 
         return result;

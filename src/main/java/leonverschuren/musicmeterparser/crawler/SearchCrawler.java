@@ -2,17 +2,18 @@ package leonverschuren.musicmeterparser.crawler;
 
 import leonverschuren.musicmeterparser.model.AlbumInfo;
 import leonverschuren.musicmeterparser.model.SearchResult;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.java.Log;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static java.util.stream.Collectors.toList;
 
-@Log4j
+@Log
 public class SearchCrawler {
     private final Document document;
 
@@ -63,7 +64,7 @@ public class SearchCrawler {
         }
         catch (Exception e)
         {
-            log.warn(e);
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
 
         return result;

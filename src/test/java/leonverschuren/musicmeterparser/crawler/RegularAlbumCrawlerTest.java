@@ -69,9 +69,10 @@ public class RegularAlbumCrawlerTest {
 
         // Act
         String result = target.extractRating();
+        float rating = Float.parseFloat(result);
 
         // Assert
-        Assert.assertEquals("3.98", result);
+        Assert.assertEquals(3.99f, rating, 0.1f);
     }
 
     @Test

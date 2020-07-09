@@ -1,4 +1,4 @@
-FROM maven:3.5-jdk-8-alpine as BUILD
+FROM maven:3.6-jdk-14 as BUILD
 
 RUN mkdir -p /usr/src/app
 

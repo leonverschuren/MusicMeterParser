@@ -1,5 +1,5 @@
 # MusicMeterParser
 
-[![Build Status](https://travis-ci.org/leonverschuren/MusicMeterParser.svg?branch=master)](https://travis-ci.org/leonverschuren/MusicMeterParser)
+![](https://github.com/leonverschuren/MusicMeterParser/workflows/Build/badge.svg)
 
-This webservice scrapes 'MusicMeter.nl' and returns the page results in JSON format
+This webservice scrapes 'MusicMeter.nl' and returns the page results in JSON format.
